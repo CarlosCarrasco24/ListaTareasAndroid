@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">ListaTareas_03_02</string>
+    <string name="action_settings">Settings</string>
+    <string name="btnGuardar">Guardar</string>
+    <string name="nomTarea">Nombre</string>
+    <string name="lugTarea">Lugar</string>
+    <string name="descTarea">Descripcion</string>
+    <string name="crear">Crear Tarea</string>
+    <string name="impor">Importancia</string>
+    <string-array name="arrayImp">
+        <item>Baja</item>
+        <item>Media</item>
+        <item>Alta</item>
+    </string-array>
+</resources>
