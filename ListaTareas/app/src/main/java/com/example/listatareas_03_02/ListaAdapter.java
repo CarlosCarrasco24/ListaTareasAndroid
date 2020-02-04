@@ -11,14 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiVistaHolder> {
+public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiVistaHolder> implements View.OnClickListener{
     private ArrayList<ListaItem> miLista;
     private final int [] colores={R.drawable.ic_green,R.drawable.ic_yellow,R.drawable.ic_red};
-
+    private View.OnClickListener listener;
 
     public ListaAdapter(ArrayList<ListaItem>al){
         miLista=al;
     }
+
 
 
     public class MiVistaHolder extends RecyclerView.ViewHolder {
@@ -26,7 +27,7 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiVistaHolde
         ImageView iv;
         public MiVistaHolder(@NonNull View itemView) {
             super(itemView);
-            tvNombre= itemView.findViewById(R.id.tvNombre);
+            tvNombre= itemView.findViewById(R.id.tvDNombre);
             tvLugar=itemView.findViewById(R.id.tvLugar);
             iv=itemView.findViewById(R.id.ivImpor);
         }
@@ -37,6 +38,7 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiVistaHolde
     public MiVistaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater=LayoutInflater.from(parent.getContext());
         View v= inflater.inflate(R.layout.lista_layout,parent,false);
+        v.setOnClickListener(this);
         return new MiVistaHolder(v);
     }
 
@@ -61,6 +63,18 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.MiVistaHolde
     @Override
     public int getItemCount() {
         return miLista.size();
+    }
+
+    public void setOnClickListener(View.OnClickListener lis){
+        listener=lis;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(listener!=null){
+            listener.onClick(v);
+        }
+
     }
 
 }

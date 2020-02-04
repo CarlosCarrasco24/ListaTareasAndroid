@@ -8,9 +8,11 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String ROWID="r";
     public static final int REQ_CODE=123;
     private RecyclerView recView;
     private ArrayList<ListaItem>miLista;
@@ -46,15 +49,51 @@ public class MainActivity extends AppCompatActivity {
         });
         //******************************
         recView=findViewById(R.id.recView);
+        ponerGestos();
         obtenerRegistros();
     }
 
+    private void ponerGestos() {
+        ItemTouchHelper.SimpleCallback ith=new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT| ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                //Cojo la posicion del elemento que he pulsado
+                int pos=viewHolder.getAdapterPosition();
+                ListaItem elemento=miLista.get(pos);
+                if(direction==ItemTouchHelper.LEFT){
+                    //Voy a borrar el elemento
+                    BaseDatosHelper conecion=new BaseDatosHelper(MainActivity.this,BASE,null,1);
+                    SQLiteDatabase base=conecion.getWritableDatabase();
+                    base.delete(BaseDatosHelper.TABLA,"ROWID="+elemento.getRowid(),null);
+                    //notifico para actualizar
+                    miLista.remove(pos);
+                    adapter.notifyItemRemoved(pos);
+                }
+            }
+        };
+    }
+
+    //---------------------------------------------------------------------
     private void obtenerRegistros() {
         miLista=new ArrayList<>();
         //ponemos el layout en recView
         recView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         adapter=new ListaAdapter(miLista);
         recView.setAdapter(adapter);
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ListaItem li=miLista.get(recView.getChildAdapterPosition(v));
+                Intent i=new Intent(MainActivity.this,ActivityDetalle.class);
+                i.putExtra(ROWID,li.getRowid());
+                startActivity(i);
+            }
+        });
         //ahora leo todos los registros y los añado al arrayList miLista
         BaseDatosHelper conecion=new BaseDatosHelper(this,BASE,null,1);
         SQLiteDatabase base=conecion.getReadableDatabase();
@@ -74,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         }
         base.close();
     }
+    //---------------------------------------------------------------------------
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
