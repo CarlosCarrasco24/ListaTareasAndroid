@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ModificarActivity">
+
+    <TextView
+        android:id="@+id/tvMTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/tituloModificar"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#3F51B5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvMNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="70dp"
+        android:text="@string/nomTarea"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvMLugar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/lugTarea"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tvMNombre"
+        app:layout_constraintTop_toBottomOf="@+id/tvMNombre" />
+
+    <TextView
+        android:id="@+id/tvMImpor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:text="@string/impor"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tvMDescripcion"
+        app:layout_constraintTop_toBottomOf="@+id/tvMDescripcion" />
+
+    <Button
+        android:id="@+id/btnVolver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="62dp"
+        android:onClick="volver"
+        android:text="@string/btnVolver"
+        app:layout_constraintBottom_toBottomOf="@+id/button2"
+        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintTop_toTopOf="@+id/button2" />
+
+    <EditText
+        android:id="@+id/etMNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:ems="10"
+        android:hint="@string/nomTarea"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMNombre"
+        app:layout_constraintStart_toEndOf="@+id/tvMNombre"
+        app:layout_constraintTop_toTopOf="@+id/tvMNombre" />
+
+    <TextView
+        android:id="@+id/tvMDescripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:text="@string/descTarea"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tvMLugar"
+        app:layout_constraintTop_toBottomOf="@+id/tvMLugar" />
+
+    <EditText
+        android:id="@+id/etMLugar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/lugTarea"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMLugar"
+        app:layout_constraintStart_toStartOf="@+id/etMNombre"
+        app:layout_constraintTop_toTopOf="@+id/tvMLugar" />
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="126dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="25dp"
+        android:entries="@array/arrayImp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMImpor"
+        app:layout_constraintStart_toEndOf="@+id/tvMImpor"
+        app:layout_constraintTop_toTopOf="@+id/tvMImpor" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="80dp"
+        android:onClick="modificar"
+        android:text="@string/btnModificar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+
+    <EditText
+        android:id="@+id/etMDescripcion"
+        android:layout_width="231dp"
+        android:layout_height="95dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/descTarea"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMDescripcion"
+        app:layout_constraintStart_toStartOf="@+id/etMLugar"
+        app:layout_constraintTop_toTopOf="@+id/tvMDescripcion" />
+</androidx.constraintlayout.widget.ConstraintLayout>

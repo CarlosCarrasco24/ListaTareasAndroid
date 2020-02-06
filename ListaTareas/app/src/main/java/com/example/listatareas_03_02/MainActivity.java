@@ -25,8 +25,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String ROWID="r";
+    public static final String ROWID="r",NOMBRE="e",LUGAR="A",DESCRIPCION="sa",IMPORTANCIA="sd";
     public static final int REQ_CODE=123;
+    public static final int REQU_CODE=123;
     private RecyclerView recView;
     private ArrayList<ListaItem>miLista;
     ListaAdapter adapter;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         obtenerRegistros();
     }
 
-    private void ponerGestos() {
+    public void ponerGestos() {
         ItemTouchHelper.SimpleCallback ith=new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT| ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -74,8 +75,29 @@ public class MainActivity extends AppCompatActivity {
                     miLista.remove(pos);
                     adapter.notifyItemRemoved(pos);
                 }
+                if(direction==ItemTouchHelper.RIGHT){
+                    Intent i=new Intent(MainActivity.this,ModificarActivity.class);
+                    BaseDatosHelper conecion=new BaseDatosHelper(MainActivity.this,BASE,null,1);
+                    SQLiteDatabase base=conecion.getReadableDatabase();
+                    //dejar espacios que sino da error
+                    Cursor cursor=base.rawQuery("select ROWID, nombre, lugar, descripcion, importancia" +
+                            " from "+BaseDatosHelper.TABLA+" where ROWID = "+elemento.getRowid(),null);
+                    while (cursor.moveToNext()){
+                        i.putExtra(ROWID,cursor.getInt(0));
+                        i.putExtra(NOMBRE, cursor.getString(1));
+                        i.putExtra(LUGAR,cursor.getString(2));
+                        i.putExtra(DESCRIPCION,cursor.getString(3));
+                        i.putExtra(IMPORTANCIA,cursor.getInt(4));
+                        startActivityForResult(i,REQU_CODE);
+                    }
+                    base.close();
+                    adapter.notifyItemChanged(pos);
+                }
+
             }
         };
+        ItemTouchHelper ith2 = new ItemTouchHelper(ith);
+        ith2.attachToRecyclerView(recView);
     }
 
     //---------------------------------------------------------------------
@@ -143,6 +165,10 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode==REQ_CODE && resultCode==RESULT_OK){
             obtenerRegistros();
             Toast.makeText(this,"Tarea guardada con exito",Toast.LENGTH_LONG).show();
+        }
+        if(requestCode==REQU_CODE && resultCode==RESULT_OK){
+            obtenerRegistros();
+            Toast.makeText(this,"Tarea modificada con exito",Toast.LENGTH_LONG).show();
         }
     }
 }

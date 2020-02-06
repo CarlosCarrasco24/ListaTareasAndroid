@@ -55,7 +55,7 @@ public class ActivityDetalle extends AppCompatActivity {
     }
 
     private void cargarViews(){
-        tvTitulo=findViewById(R.id.tvTitulo);
+        tvTitulo=findViewById(R.id.tvMTitulo);
         tvNombre=findViewById(R.id.tvDNombre);
         tvLugar=findViewById(R.id.tvDLugar);
         tvDescripcion=findViewById(R.id.tvDDescrip);
